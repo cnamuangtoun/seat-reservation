@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../static/css/sign_up.css">
+<title>Sign Up</title>
+<style type="text/css">
+body {
+	background-color: rgba(45,58,85,1);
+	img{
+  	position:absolute;
+  	left:300px;
+  	top:150px;
+	}
+}
+</style>
+</head>
+
+<form class="login-wrap" method="POST">
+	{{ form.hidden_tag() }}
+	<div class="login-html">
+		<input id="tab-1" type="radio" name="tab" class="student" checked><label for="tab-1" class="tab">Student</label>
+		<input id="tab-2" type="radio" name="tab" class="guest"><label for="tab-2" class="tab">Guest</label>
+		<div class="login-form">
+			<div class="student-htm">
+				<div class="group">
+					{{ form.username.label(class="label") }}{{ form.username(class="input") }}
+				</div>
+				<div class="group">
+					{{ form.email.label(class="label") }} {{ form.email(class="input") }}
+				</div>
+				<div class="group">
+					{{ form.password.label(class="label") }} {{ form.password(class="input") }}
+				</div>
+				<div class="group">
+					{{ form.pass_confirm.label(class="label") }} {{ form.pass_confirm(class="input") }}
+				</div>
+				<div class="group">
+					{{ form.submit(class="button") }}
+				</div>
+			</div>
+			<div class="guest-htm">
+				<div class="group">
+					{{ form.username.label(class="label") }}{{ form.username(class="input") }}
+				</div>
+				<div class="group">
+					{{ form.email.label(class="label") }} {{ form.email(class="input") }}
+				</div>
+				<div class="group">
+					{{ form.password.label(class="label") }} {{ form.password(class="input") }}
+				</div>
+				<div class="group">
+					{{ form.pass_confirm.label(class="label") }} {{ form.pass_confirm(class="input") }}
+				</div>
+				<div class="group">
+					{{ form.submit(class="button") }}
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+{% endblock %}

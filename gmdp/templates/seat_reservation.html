@@ -1,0 +1,451 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../static/css/seat_style.css">
+<link rel="stylesheet" href="../static/css/floor_style.css">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seat Reservation</title>
+<style type="text/css">
+</style>
+</head>
+
+<div id="t1">
+  <div id="t2">
+    <div id="t3">
+      <ul id="menu">
+        <a href="#t1"><li class="icon" id="f1">1st F</li></a>
+        <a href="#t2"><li class="icon" id="f2">2nd F</li></a>
+        <a href="#t3"><li class="icon" id="f3">3rd F</li></a>
+      </ul>
+
+      <div class="page" id="p1">
+
+
+<!-- First Floor -->
+<!-- Table A -->
+<div class="library">
+  <ol class="table">
+    <li class="row row--1">
+      <ol class="seats" type="A">
+        <li class="seat">
+          <input type="checkbox" id="A1" />
+          <label for="A1">A1</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="A2" />
+          <label for="A2">A2</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="A3" />
+          <label for="A3">A3</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" disabled id="A4" />
+          <label for="A4">A4</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="A5" />
+          <label for="A5">A5</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="A6" />
+          <label for="A6">A6</label>
+        </li>
+      </ol>
+    </li>
+
+	<br> <br>
+    <li class="row row--2">
+      <ol class="seats" type="A">
+        <li class="desk"></li>
+      </ol>
+    </li>
+	<br> <br>
+
+	<li class="row row--1">
+      <ol class="seats" type="A">
+        <li class="seat">
+          <input type="checkbox" id="A7" />
+          <label for="A7">A7</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" disabled id="A8" />
+          <label for="A8">A8</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="A9" />
+          <label for="A9">A9</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="A10" />
+          <label for="A10">A10</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="A11" />
+          <label for="A11">A11</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" disabled id="A12" />
+          <label for="A12">A12</label>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</div>
+<!-- Table B -->
+<div id="rotate_desk_left" class="library">
+  <ol class="table">
+    <li class="row row--1">
+      <ol class="seats" type="A">
+        <li class="seat">
+          <input type="checkbox" id="B1" />
+          <label for="B1">B1</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="B2" />
+          <label for="B2">B2</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="B3" />
+          <label for="B3">B3</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" disabled id="B4" />
+          <label for="B4">B4</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="B5" />
+          <label for="B5">B5</label>
+        </li>
+		<li class="seat">
+          <input type="checkbox" id="B6" />
+          <label for="B6">B6</label>
+        </li>
+      </ol>
+    </li>
+
+	<br> <br>
+    <li class="row row--2">
+      <ol class="seats" type="A">
+        <li class="desk"></li>
+      </ol>
+    </li>
+	<br> <br>
+
+	<li class="row row--1">
+      <ol class="seats" type="A">
+		<li class="seat">
+          <input type="checkbox" id="B7" />
+          <label for="B7">B7</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" disabled id="B8" />
+          <label for="B8">B8</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="B9" />
+          <label for="B9">B9</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="B10" />
+          <label for="B10">B10</label>
+        </li>
+		<li class="seat">
+          <input type="checkbox" id="B11" />
+          <label for="B11">B11</label>
+        </li>
+		<li class="seat">
+          <input type="checkbox" id="B12" />
+          <label for="B12">B12</label>
+		</li>
+      </ol>
+    </li>
+  </ol>
+</div>
+
+<!-- Table C -->
+<div id="rotate_desk_right" class="library">
+  <ol class="table">
+    <li class="row row--1">
+      <ol class="seats" type="A">
+        <li class="seat">
+          <input type="checkbox" id="C1" />
+          <label for="C1">C1</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="C2" />
+          <label for="C2">C2</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="C3" />
+          <label for="C3">C3</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" disabled id="C4" />
+          <label for="C4">C4</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="C5" />
+          <label for="C5">C5</label>
+        </li>
+		<li class="seat">
+          <input type="checkbox" id="C6" />
+          <label for="C6">C6</label>
+        </li>
+      </ol>
+    </li>
+
+	<br> <br>
+    <li class="row row--2">
+      <ol class="seats" type="A">
+        <li class="desk"></li>
+      </ol>
+    </li>
+	<br> <br>
+
+	<li class="row row--1">
+      <ol class="seats" type="A">
+		<li class="seat">
+          <input type="checkbox" id="C7" />
+          <label for="C7">C7</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" disabled id="C8" />
+          <label for="C8">C8</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="C9" />
+          <label for="C9">C9</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="C10" />
+          <label for="C10">C10</label>
+        </li>
+		<li class="seat">
+          <input type="checkbox" id="C11" />
+          <label for="C11">C11</label>
+        </li>
+		<li class="seat">
+          <input type="checkbox" id="C12" />
+          <label for="C12">C12</label>
+		</li>
+      </ol>
+    </li>
+  </ol>
+</div>
+
+
+
+      </div>
+      <div class="page" id="p2">
+
+
+<!-- Table C -->
+<div id="floor2_table" class="library">
+  <ol class="table">
+    <li class="row row--1">
+      <ol class="seats" type="A">
+        <li class="seat">
+          <input type="checkbox" id="F2-C1" />
+          <label for="C1">C1</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="F2-C2" />
+          <label for="C2">C2</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="F2-C3" />
+          <label for="C3">C3</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" disabled id="F2-C4" />
+          <label for="C4">C4</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="F2-C5" />
+          <label for="C5">C5</label>
+        </li>
+		<li class="seat">
+          <input type="checkbox" id="F2-C6" />
+          <label for="C6">C6</label>
+        </li>
+      </ol>
+    </li>
+
+	<br> <br>
+    <li class="row row--2">
+      <ol class="seats" type="A">
+        <li class="desk"></li>
+      </ol>
+    </li>
+	<br> <br>
+
+	<li class="row row--1">
+      <ol class="seats" type="A">
+		<li class="seat">
+          <input type="checkbox" id="F2-C7" />
+          <label for="C7">C7</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" disabled id="F2-C8" />
+          <label for="C8">C8</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="F2-C9" />
+          <label for="C9">C9</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="F2-C10" />
+          <label for="C10">C10</label>
+        </li>
+		<li class="seat">
+          <input type="checkbox" id="F2-C11" />
+          <label for="C11">C11</label>
+        </li>
+		<li class="seat">
+          <input type="checkbox" id="F2-C12" />
+          <label for="C12">C12</label>
+		</li>
+      </ol>
+    </li>
+  </ol>
+</div>
+
+
+      </div>
+      <div class="page" id="p3">
+
+
+		  <!-- Table C -->
+<div id="floor3_table" class="library">
+  <ol class="table">
+    <li class="row row--1">
+      <ol class="seats" type="A">
+        <li class="seat">
+          <input type="checkbox" id="F3-B1" />
+          <label for="C1">C1</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="F3-B2" />
+          <label for="C2">C2</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="F3-B3" />
+          <label for="C3">C3</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" disabled id="F3-B4" />
+          <label for="C4">C4</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="F3-B5" />
+          <label for="C5">C5</label>
+        </li>
+		<li class="seat">
+          <input type="checkbox" id="F3-CB" />
+          <label for="C6">C6</label>
+        </li>
+      </ol>
+    </li>
+
+	<br> <br>
+    <li class="row row--2">
+      <ol class="seats" type="A">
+        <li class="desk"></li>
+      </ol>
+    </li>
+	<br> <br>
+
+	<li class="row row--1">
+      <ol class="seats" type="A">
+		<li class="seat">
+          <input type="checkbox" id="F3-B7" />
+          <label for="C7">C7</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" disabled id="F3-B8" />
+          <label for="C8">C8</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="F3-B9" />
+          <label for="C9">C9</label>
+        </li>
+        <li class="seat">
+          <input type="checkbox" id="F3-B10" />
+          <label for="C10">C10</label>
+        </li>
+		<li class="seat">
+          <input type="checkbox" id="F3-B11" />
+          <label for="C11">C11</label>
+        </li>
+		<li class="seat">
+          <input type="checkbox" id="F3-B12" />
+          <label for="C12">C12</label>
+		</li>
+      </ol>
+    </li>
+  </ol>
+</div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <ol class="table">
+    <li class="row row--1">
+      <ol class="seats" type="A">
+        <li class="seat">
+          <input type="checkbox"/>
+          <label>Available</label>
+        </li>
+	  </ol>
+	</li>
+
+	<li class="row row--2">
+      <ol class="seats" type="A">
+        <li class="seat">
+          <input type="checkbox"/>
+          <checked>Reserved</checked>
+        </li>
+	  </ol>
+	</li>
+
+	<li class="row row--3">
+      <ol class="seats" type="A">
+        <li class="seat">
+          <input type="checkbox" disabled/>
+          <occupied>Occupied</occupied>
+        </li>
+	  </ol>
+	</li>
+  </ol>
+</div>
+
+<!-- Reservation Info.-->
+<div id="container">
+      	<section id="content">
+        <form name="input" action="./seat_reservation.html" method="post" enctype="multipart/form-data">
+          <h1>Reserved Info.</h1>
+          <div>
+            <input type="text" placeholder="User" required="" name="user" id="username">
+          </div>
+          <div>
+            <input type="password" placeholder="Seats Number" required="" name="pswd" id="password">
+          </div>
+        </form>
+			<br>
+			<div class="group">
+					<input id="check" type="checkbox" class="check" checked>
+					<label for="check"><span class="icon"></span> Group Reservation</label>
+				</div>
+        <p>Contact Librarians: <a target="_blank" href="#">Here</a></p>
+      </section>
+</div>
+
+</html>

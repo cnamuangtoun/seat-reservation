@@ -1,0 +1,246 @@
+img {
+	max-width: 100%;
+	border-radius: 10px;
+}
+
+.navbar-brand {
+    padding: 0 0 0 15px;
+    margin: 0;
+}
+
+.nav > li > a {
+    color: #787878;
+}
+
+footer {
+    margin-top: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #efefef;
+}
+
+.container-fluid {
+    max-width: 1200px;
+}
+
+.dropdown-menu > li {
+    padding: 3px 0;
+}
+
+.hero {
+    margin-top: -30px;
+    padding-top: 70px;
+    background-image: url('http://omje9d8g0.bkt.clouddn.com/17-3-9/54575764-file_1489047999343_c33.jpg');
+    background-repeat: no-repeat;
+    /*background-attachment: fixed;*/
+    background-position: center 40%;
+    background-size: cover;
+    min-height: 300px;
+    height: 50vh;
+}
+
+.title-text {
+    padding-top: 0;
+    padding-left: 80px;
+    text-align: left;
+}
+
+.title-text > h1 {
+    font-size: 55pt;
+    font-weight: normal;
+    text-shadow: 1px 1px 3px #999;
+}
+
+.title-text > p {
+    font-size: 15pt;
+    font-weight: lighter;
+    width: 50vw;
+    color: #efefef;
+    margin-top: 350px;
+    margin-top: calc(50vh - 320px);
+    text-shadow: 1px 1px 3px #666;
+}
+
+.news-list {
+    list-style: none;
+}
+
+.news-list .media {
+    margin-left: -40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.news-list .media h4 a {
+    color: inherit;
+
+}
+
+@media screen and (max-height: 600px) {
+    .title-text > p {
+        margin-top: 0;
+    }
+}
+
+.about-nav {
+    margin-right: 20px;
+}
+
+.about-nav h3 {
+    padding: 10px 0;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.about-content {
+    padding-left: 20px;
+    border-left: 1px solid #CCCCCC;
+}
+
+/* sm */
+@media screen and (max-width: 992px) {
+    .title-text > p {
+        width: 80%;
+    }
+
+    .about-nav {
+        margin: 0;
+        padding-bottom: 15px;
+    }
+
+    .about-nav h3 {
+        padding: 0;
+        border-bottom: 0;
+    }
+
+    .about-content {
+        padding: 0;
+        border-left: 0;
+        border-top: 1px solid #CCCCCC;
+    }
+}
+
+/* xs */
+@media screen and (max-width: 767px) {
+    .title-text {
+        padding: 0;
+        text-align: center;
+        margin-top: -50px;
+    }
+
+    .title-text > h1 {
+        font-size: 40pt;
+    }
+
+    .title-text > p {
+        font-size: 12pt;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.people-list {
+    text-align: center;
+}
+
+.aspect-ratio-wrapper {
+    position: relative;
+    padding-bottom: 150%;
+}
+
+@media screen and (max-width: 500px) {
+
+.aspect-ratio-wrapper {
+    position: relative;
+    padding-bottom: 150%;
+}
+    .aspect-ratio-wrapper {
+        padding-bottom: 175%;
+    }
+}
+
+.aspect-ratio-wrapper > .wrapper-content {
+    position: absolute;
+    /*top: 0;*/
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.people-list img {
+	width: 70%;
+	padding-top: auto;
+	padding-bottom: auto;
+	margin-top: -0px;
+}
+
+.divider {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+th {
+    text-align: center;
+    min-width: 90px;
+    max-width: 200px;
+}
+
+tbody td > ul {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+tbody tr > td:first-child {
+    text-align: center;
+    vertical-align: middle;
+}
+
+@media screen and (max-width: 767px) {
+    .table-responsive td:nth-child(2),
+    .table-responsive th:nth-child(2),
+    .table-responsive td:nth-child(3),
+    .table-responsive th:nth-child(3){
+        max-width: 300px !important;
+        min-width: 200px !important;
+        white-space: normal !important;
+    }
+}
+.alu-style {
+	margin-top: -150px;
+	margin-bottom: 900px;
+	text-align: center;
+}
+.alu-head-style {
+	margin-top: 20px;
+	margin-bottom: -0px;
+}
+.wrapper-alu {
+	margin-top: 0px;
+	position: relative;
+	padding-bottom: 0%;
+	margin-bottom: 0px;
+	height: 250px;
+	margin-right: 0px;
+	margin-left: 0px;
+	top: 150px;
+	bottom: 100px;
+	border-radius: 10px;
+}
+.wrapper-content-alu {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+row > .alu-row {
+	margin-right: -15px;
+	margin-left: -15px;
+}
+.photo-alu {
+	border-radius: 7px;
+	border: 5px solid #EFE4E4;
+}
+.photo-boder {
+	border: 7px solid #EDE1E2;
+	border-radius: 7px;
+}
