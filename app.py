@@ -14,7 +14,16 @@ def home():
 @login_required
 def seat_reservation():
 
+    return render_template('seat_reservation.html')
 
+@app.route('/seat_reservation/floor_1')
+@login_required
+def foor_1():
+    return render_template('floor/floor_1.html')
+
+@app.route('/seat_reservation/floor_2', methods=['GET','POST'])
+@login_required
+def floor_2():
     form = ReservationForm()
     data = Seat.query.all()
 
@@ -41,7 +50,12 @@ def seat_reservation():
 
             flash('Sucessful Reservation')
 
-    return render_template('seat_reservation.html', form = form, data = data)
+    return render_template('floor/floor_2.html', form = form, data = data)
+
+@app.route('/seat_reservation/floor_3')
+@login_required
+def foor_3():
+    return render_template('floor/floor_3.html')
 
 @app.route("/logout")
 @login_required
@@ -98,7 +112,6 @@ def sign_up():
 
         return redirect(url_for('login'))
     return render_template('sign_up.html', form=form)
-
 
 if __name__ == '__main__':
     app.run(debug=True)
