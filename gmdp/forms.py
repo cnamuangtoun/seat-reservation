@@ -28,7 +28,12 @@ class RegistrationForm(FlaskForm):
         if User.query.filter_by(username=field.data).first():
             raise ValidationError('Sorry, that username is taken!')
 
-class ReservationForm(FlaskForm):
-    seat_id = [BooleanField('A1'), BooleanField('A2'), BooleanField('A3'), BooleanField('A4'), BooleanField('A5')
-            , BooleanField('A6'), BooleanField('A7'), BooleanField('A8'), BooleanField('A9'), BooleanField('A10')
-            , BooleanField('A11'), BooleanField('A12')]
+def reservation_form_builder(seats):
+    class ReservationForm(FlaskForm):
+        pass
+
+    for (i, seat) in enumerate(seats):
+        setattr(ReservationForm, 'seat_%d' % i, BooleanField(label=seat))
+
+    setattr(ReservationForm, 'submit', SubmitField('Submit'))
+    return ReservationForm()

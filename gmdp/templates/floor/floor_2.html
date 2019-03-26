@@ -18,22 +18,22 @@
       <li class="row row--1">
         <ol class="seats" type="A">
           <li class="seat">
-            {{ form.seat_id[0] }}
+            {{ form.seat_0(checked=1) }}{{ form.seat_0.label }}
           </li>
           <li class="seat">
-            {{ form.seat_id[1] }}
+            {{ form.seat_1 }}{{ form.seat_1.label }}
           </li>
           <li class="seat">
-            {{ form.seat_id[2] }}
+            {{ form.seat_2 }}{{ form.seat_2.label }}
           </li>
           <li class="seat">
-            {{ form.seat_id[3] }}
+            {{ form.seat_3 }}{{ form.seat_3.label }}
           </li>
           <li class="seat">
-            {{ form.seat_id[4] }}
+            {{ form.seat_4 }}{{ form.seat_4.label }}
           </li>
   		    <li class="seat">
-            {{ form.seat_id[5] }}
+            {{ form.seat_5 }}{{ form.seat_5.label }}
           </li>
         </ol>
       </li>
@@ -48,27 +48,30 @@
 
   	<li class="row row--1">
         <ol class="seats" type="A">
-  		<li class="seat">
-            {{ form.seat_id[6] }}{{ form.seat_id[6].label }}
+          <li class="seat">
+            {{ form.seat_6 }}{{ form.seat_6.label }}
+          </li>
+  		    <li class="seat">
+            {{ form.seat_7 }}{{ form.seat_7.label }}
           </li>
           <li class="seat">
-            {{ form.seat_id[7] }}{{ form.seat_id[7].label }}
+            {{ form.seat_8 }}{{ form.seat_8.label }}
           </li>
           <li class="seat">
-            {{ form.seat_id[8] }}{{ form.seat_id[8].label }}
+            {{ form.seat_9 }}{{ form.seat_9.label }}
           </li>
           <li class="seat">
-            {{ form.seat_id[9] }}{{ form.seat_id[9].label }}
+            {{ form.seat_10 }}{{ form.seat_10.label }}
           </li>
-  		<li class="seat">
-            {{ form.seat_id[10] }}{{ form.seat_id[10].label }}
+  		    <li class="seat">
+            {{ form.seat_11 }}{{ form.seat_11.label }}
           </li>
-  		<li class="seat">
-            {{ form.seat_id[11] }}{{ form.seat_id[11].label }}
-  		</li>
         </ol>
       </li>
     </ol>
+  </div>
+  <div>
+    {{ form.submit(class="button") }}
   </div>
 </form>
 

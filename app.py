@@ -2,7 +2,7 @@ from gmdp import app,db
 from flask import render_template, redirect, request, url_for, flash, abort
 from flask_login import login_user,login_required,logout_user,current_user
 from gmdp.models import User, Seat
-from gmdp.forms import LoginForm, RegistrationForm, ReservationForm
+from gmdp.forms import LoginForm, RegistrationForm, reservation_form_builder
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime as dt
 
@@ -24,7 +24,10 @@ def foor_1():
 @app.route('/seat_reservation/floor_2', methods=['GET','POST'])
 @login_required
 def floor_2():
-    form = ReservationForm()
+
+    seats = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'A12']
+
+    form = reservation_form_builder(seats)
     data = Seat.query.all()
 
     if form.validate_on_submit():
