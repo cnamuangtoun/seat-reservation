@@ -1,8 +1,8 @@
 from gmdp import app,db
 from flask import render_template, redirect, request, url_for, flash, abort
 from flask_login import login_user,login_required,logout_user,current_user
-from gmdp.models import User
-from gmdp.forms import LoginForm, RegistrationForm
+from gmdp.models import User, Seat
+from gmdp.forms import LoginForm, RegistrationForm, ReservationForm
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime as dt
 
@@ -10,16 +10,44 @@ import datetime as dt
 def home():
     return render_template('home.html')
 
-@app.route('/seat_reservation')
+@app.route('/seat_reservation', methods=['GET','POST'])
 @login_required
 def seat_reservation():
-    return render_template('seat_reservation.html')
+
+
+    form = ReservationForm()
+    data = Seat.query.all()
+
+    if form.validate_on_submit():
+
+        for i in form.seat_id.data:
+
+            seat = Seat.query.filter_by(seat_id=form.seat_id.data).first()
+
+            if seat.status == 0:
+                continue
+            else:
+                flash('Invalid Reservation')
+                err = True
+                break
+
+        if not err:
+            for i in form.seat_id.data:
+
+                seat = Seat.query.filter_by(seat_id=form.seat_id.data).first()
+
+                seat.status = 1
+                db.session.commit()
+
+            flash('Sucessful Reservation')
+
+    return render_template('seat_reservation.html', form = form, data = data)
 
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
-    flash('You logged out!')
+    flash('You have logged out')
     return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET','POST'])

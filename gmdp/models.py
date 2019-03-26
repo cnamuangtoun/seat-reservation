@@ -35,3 +35,14 @@ class User(db.Model, UserMixin):
     def check_password(self,password):
         # https://stackoverflow.com/questions/23432478/flask-generate-password-hash-not-constant-output
         return check_password_hash(self.password_hash,password)
+
+class Seat(db.Model):
+    __tablename__ = 'seats'
+
+    id = db.Column(db.Integer, primary_key = True)
+    seat_id = db.Column(db.String(2))
+    status = db.Column(db.Integer)
+
+    def __init__(self, seat_id):
+        self.seat_id = seat_id
+        self.status = 0
