@@ -33,7 +33,7 @@ def reservation_form_builder(seats):
         pass
 
     for (i, seat) in enumerate(seats):
-        setattr(ReservationForm, 'seat_%d' % i, BooleanField(label=seat))
+        setattr(ReservationForm, 'seat_%d' % i, BooleanField(label=seat, description=seat))
 
     setattr(ReservationForm, 'submit', SubmitField('Submit'))
     return ReservationForm()

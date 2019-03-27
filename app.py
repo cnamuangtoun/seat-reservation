@@ -6,6 +6,12 @@ from gmdp.forms import LoginForm, RegistrationForm, reservation_form_builder
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime as dt
 
+#for i in range (0,12):
+#    seat = Seat(seat_id = 'A%d' % i)
+#    db.session.add(seat)
+#    db.session.commit()
+
+
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -25,35 +31,36 @@ def foor_1():
 @login_required
 def floor_2():
 
-    seats = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'A12']
+    seats = ['A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11']
 
-    form = reservation_form_builder(seats)
+    ReservationForm = reservation_form_builder(seats)
+    err = False
+    disp = []
     data = Seat.query.all()
+    for seat_num in data:
+        disp.append(seat_num.status == True)
 
-    if form.validate_on_submit():
+    if ReservationForm.validate_on_submit():
 
-        for i in form.seat_id.data:
-
-            seat = Seat.query.filter_by(seat_id=form.seat_id.data).first()
-
-            if seat.status == 0:
-                continue
-            else:
-                flash('Invalid Reservation')
-                err = True
-                break
-
-        if not err:
-            for i in form.seat_id.data:
-
-                seat = Seat.query.filter_by(seat_id=form.seat_id.data).first()
-
-                seat.status = 1
-                db.session.commit()
-
+        for forms in ReservationForm:
+            #if forms.id != 'submit' and forms.id != 'csrf_token':
+                #seat = Seat.query.filter_by(seat_id=forms.description).first()
+                #if seat.status == 1 and forms.data == True:
+                #    flash('Invalid Reservation')
+                #    err = True
+                #    break
+                #else:
+                #    continue
+        #if not err:
+            for forms in ReservationForm:
+                if forms.id != 'submit' and forms.id != 'csrf_token':
+                    seat = Seat.query.filter_by(seat_id=forms.description).first()
+                    seat.status = forms.data
+                    db.session.commit()
             flash('Sucessful Reservation')
+            return (redirect(url_for('floor_2')))
 
-    return render_template('floor/floor_2.html', form = form, data = data)
+    return render_template('floor/floor_2.html', form = ReservationForm, disp = disp)
 
 @app.route('/seat_reservation/floor_3')
 @login_required
