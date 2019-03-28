@@ -25,6 +25,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
+    #seat_num = db.Column()
 
     def __init__(self, email, username, password):
         #self.type = type
@@ -46,3 +47,14 @@ class Seat(db.Model):
     def __init__(self, seat_id):
         self.seat_id = seat_id
         self.status = 0
+
+class User_Seat(db.Model):
+    __tablename__ = 'user_seat'
+
+    id = db.Column(db.Integer, primary_key = True)
+    user_email = db.Column(db.String(64), index=True)
+    seat_id = db.Column(db.String(2))
+
+    def __init__(self, seat_id):
+        self.seat_id = seat_id
+        self.user_email = ""

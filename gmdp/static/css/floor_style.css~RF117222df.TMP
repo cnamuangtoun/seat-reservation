@@ -6,7 +6,7 @@ body , .page {
   transition:all .4s ease-in-out;
   color:black;
   overflow:hidden;
-  background: linear-gradient(to left,#002a4c,#002a4c 62%,white 63%);
+  background: linear-gradient(to left,#002a4c,#002a4c 62%,white 63%)
 }
 
 .page{
@@ -16,14 +16,14 @@ body , .page {
 #p1,
 #p2,
 #p3 {
-  left:200%;
+  left:190%;
 }
 
 
 #t1:target li,
 #t2:target li,
 #t3:target li {
-  transform:scale(1,1);
+  transform:scale(1 ,1);
 }
 
 #t1:target #f1,
@@ -39,12 +39,12 @@ body , .page {
 }
 
 ul {
-  width:150px;
-  height:160px;
-  background:linear-gradient(to right,white 15%,#002a4c 25%,#87CEFA 35%,#87CEFA);
+  width:120px;
+  height:170px;
+  background:white;
   position:fixed;
-  top:120px;
-  left:450px;
+  top:50px;
+  left:487px;
   z-index:1;
   border-radius:0 20px 20px 0;
 }
@@ -60,14 +60,14 @@ li:hover {
 ul > a{
   text-decoration:none;
   list-style:none;
-  margin:25px;
-  font-size:15px;
-  text-align:center;
-  color:whitesmoke;
+  margin:20px;
+  font-size:18px;
+  text-align:left;
+  color:white;
 }
 
 .page p {
-  text-align:right;
+  text-align:center;
   line-height:200px;
   font-size:100px;
 }

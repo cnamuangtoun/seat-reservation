@@ -159,16 +159,3 @@ form:after {
 	float:right;
 	text-decoration: none;
 }
-
-p {
-	color: #34495e;
-	padding-top: 1.6em;
-	padding-bottom: .4em;
-	font-size: 0.76em;
-}
-
-a:last-child {
-	text-decoration: none;
-	color: #28ade8;
-	font-weight:bold;
-}

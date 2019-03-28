@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="../static/css/nav_bar.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -20,20 +21,20 @@
   {% endfor %}
 
   <body>
-  <ul class="nav">
+    <nav>
+	<div class="nav__left-container">
+		<h1 class="nav__logo">GMDP</h1>
+		<a class="nav__link" href="{{ url_for('home') }}">home</a>
+		{% if current_user.is_authenticated %}
+        <a class="nav__link" href="{{ url_for('logout') }}">logout</a>
+		<a class="nav__link" href="{{ url_for('seat_reservation') }}">Seat Reservation</a>
+        {% else %}
+		<a class="nav__link" href="{{ url_for('login') }}">login</a>
+		<a class="nav__link" href="{{ url_for('sign_up') }}">sign up</a>
+		{% endif %}
+	</div>
+	</nav>
 
-
-  <li class="nav-item">
-    <a class="nav-link" href="{{ url_for('home') }}">Home</a>
-  </li>
-    {% if current_user.is_authenticated %}
-    <li class="nav-link"><a href="{{ url_for('logout') }}">Log Out</a></li>
-    {% else %}
-    <li class="nav-link"><a href="{{ url_for('login') }}">Log In</a></li>
-    <li class="nav-link"><a href="{{ url_for('sign_up') }}">Sign Up</a></li>
-    {% endif %}
-
-  </ul>
 {% block content %}
 
 {% endblock %}

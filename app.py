@@ -1,7 +1,7 @@
 from gmdp import app,db
 from flask import render_template, redirect, request, url_for, flash, abort
 from flask_login import login_user,login_required,logout_user,current_user
-from gmdp.models import User, Seat
+from gmdp.models import User, Seat, User_Seat
 from gmdp.forms import LoginForm, RegistrationForm, reservation_form_builder
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime as dt
@@ -9,6 +9,8 @@ import datetime as dt
 #for i in range (0,12):
 #    seat = Seat(seat_id = 'A%d' % i)
 #    db.session.add(seat)
+#    user_seat = User_Seat(seat_id = 'A%d' % i)
+#    db.session.add(user_seat)
 #    db.session.commit()
 
 
@@ -19,8 +21,12 @@ def home():
 @app.route('/seat_reservation', methods=['GET','POST'])
 @login_required
 def seat_reservation():
-
-    return render_template('seat_reservation.html')
+    disp = []
+    data = Seat.query.all()
+    for seat_num in data:
+        disp.append(seat_num.status == True)
+    current_user
+    return render_template('seat_reservation.html', disp = disp)
 
 @app.route('/seat_reservation/floor_1')
 @login_required
@@ -38,27 +44,28 @@ def floor_2():
     disp = []
     data = Seat.query.all()
     for seat_num in data:
-        disp.append(seat_num.status == True)
+        user_seat = User_Seat.query.filter_by(seat_id= seat_num.seat_id).first()
+        if current_user.email != user_seat.user_email and seat_num.status:
+            disp.append(2)
+        else:
+            disp.append(int(seat_num.status == 1))
 
     if ReservationForm.validate_on_submit():
-
-        for forms in ReservationForm:
-            #if forms.id != 'submit' and forms.id != 'csrf_token':
-                #seat = Seat.query.filter_by(seat_id=forms.description).first()
-                #if seat.status == 1 and forms.data == True:
-                #    flash('Invalid Reservation')
-                #    err = True
-                #    break
-                #else:
-                #    continue
         #if not err:
-            for forms in ReservationForm:
-                if forms.id != 'submit' and forms.id != 'csrf_token':
-                    seat = Seat.query.filter_by(seat_id=forms.description).first()
+        for forms in ReservationForm:
+            if forms.id != 'submit' and forms.id != 'csrf_token':
+                seat = Seat.query.filter_by(seat_id=forms.description).first()
+                user_seat = User_Seat.query.filter_by(seat_id=forms.description).first()
+                change = seat.status != forms.data
+                if (current_user.email == user_seat.user_email and not forms.data) or forms.data:
                     seat.status = forms.data
-                    db.session.commit()
-            flash('Sucessful Reservation')
-            return (redirect(url_for('floor_2')))
+                if forms.data and change:
+                    user_seat.user_email = current_user.email
+                elif not forms.data and change and user_seat.user_email == current_user.email:
+                    user_seat.user_email = ""
+                db.session.commit()
+        flash('Sucessful Reservation')
+        return (redirect(url_for('floor_2')))
 
     return render_template('floor/floor_2.html', form = ReservationForm, disp = disp)
 
