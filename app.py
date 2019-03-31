@@ -21,12 +21,7 @@ def home():
 @app.route('/seat_reservation', methods=['GET','POST'])
 @login_required
 def seat_reservation():
-    disp = []
-    data = Seat.query.all()
-    for seat_num in data:
-        disp.append(seat_num.status == True)
-    current_user
-    return render_template('seat_reservation.html', disp = disp)
+    return render_template('seat_reservation.html')
 
 @app.route('/seat_reservation/floor_1')
 @login_required
@@ -53,12 +48,17 @@ def floor_2():
     if ReservationForm.validate_on_submit():
         #if not err:
         for forms in ReservationForm:
+            #ignores submit form and the csrf_token at the end of ReservationForm
             if forms.id != 'submit' and forms.id != 'csrf_token':
                 seat = Seat.query.filter_by(seat_id=forms.description).first()
                 user_seat = User_Seat.query.filter_by(seat_id=forms.description).first()
                 change = seat.status != forms.data
+                #if the seat is reserved by the current user and he wants to un-reserve it or he wants to reserved an unoccupied seats
+                #change the seat status accordingly
                 if (current_user.email == user_seat.user_email and not forms.data) or forms.data:
                     seat.status = forms.data
+                #update user_seat if the person is reserving a seat else if he is unreserving a seat only update user_seat if the seat
+                #is reserved by current user
                 if forms.data and change:
                     user_seat.user_email = current_user.email
                 elif not forms.data and change and user_seat.user_email == current_user.email:
