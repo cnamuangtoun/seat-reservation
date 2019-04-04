@@ -37,3 +37,11 @@ def reservation_form_builder(seats):
 
     setattr(ReservationForm, 'submit', SubmitField('Submit'))
     return ReservationForm()
+
+class BTForm(FlaskForm):
+    turnOn = BooleanField(label = 'ON')
+    turnOff = BooleanField(label = 'OFF')
+    submit = SubmitField('SEND TO THE FUCKING ARDUINO!')
+    def __init__(self, *args, **kwargs):
+        kwargs['csrf_enabled'] = False
+        super(BTForm, self).__init__(*args, **kwargs)

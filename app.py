@@ -1,8 +1,9 @@
 from gmdp import app,db
+from gmdp.bluetooth import Connector
 from flask import render_template, redirect, request, url_for, flash, abort
 from flask_login import login_user,login_required,logout_user,current_user
-from gmdp.models import User, Seat, User_Seat
-from gmdp.forms import LoginForm, RegistrationForm, reservation_form_builder
+from gmdp.models import User, Seat, User_Seat, connector
+from gmdp.forms import LoginForm, RegistrationForm, reservation_form_builder, BTForm
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime as dt
 
@@ -13,7 +14,6 @@ import datetime as dt
 #    db.session.add(user_seat)
 #    db.session.commit()
 
-
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -21,6 +21,7 @@ def home():
 @app.route('/seat_reservation', methods=['GET','POST'])
 @login_required
 def seat_reservation():
+    info = connector.Rvalue()
     return render_template('seat_reservation.html')
 
 @app.route('/seat_reservation/floor_1')
@@ -129,6 +130,11 @@ def sign_up():
 
         return redirect(url_for('login'))
     return render_template('sign_up.html', form=form)
+
+@app.route('/terminate')
+def terminate():
+    connector.terminate()
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(debug=True)

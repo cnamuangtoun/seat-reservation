@@ -3,6 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from gmdp.bluetooth import Connector
 
 # Create a login manager object
 login_manager = LoginManager()

@@ -1,10 +1,14 @@
 from gmdp import app,db,login_manager
+from gmdp.bluetooth import Connector
+from gmdp.forms import BTForm
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
 from flask import redirect, url_for
+from flask_admin.actions import action
+from flask_admin import BaseView, expose
 
 # By inheriting the UserMixin we get access to a lot of built-in attributes
 # which we will be able to call in our views!
@@ -13,9 +17,10 @@ from flask import redirect, url_for
 # is_anonymous()
 # get_id()
 
-
 # The user_loader decorator allows flask-login to load the current user
 # and grab their id.
+connector = Connector("COM4")
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
@@ -71,6 +76,18 @@ class MyModelView(ModelView):
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('login'))
 
+        #flash("{0} transaction (s) charges recalculated".format(count))
+
+class MySeatView(MyModelView):
+    @action('change status', 'Change Status', 'Are you sure you want to change status(es)?')
+    def action_change_status(self, ids):
+        count = 0
+        for _id in ids:
+            seat = Seat.query.filter_by(id = _id).first()
+            seat.status = not seat.status
+            db.session.commit()
+            count += 1
+
 class MyAdminIndexView(AdminIndexView):
     def is_accessible(self):
         return current_user.is_authenticated
@@ -78,7 +95,20 @@ class MyAdminIndexView(AdminIndexView):
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('login'))
 
+class TestView(BaseView):
+    @expose('/', methods=['GET','POST'])
+    def index(self):
+        form = BTForm()
+        if form.validate_on_submit():
+            if form.turnOn.data:
+                connector.Wvalue('e')
+            else:
+                connector.Wvalue('g')
+            return self.render('admin/test.html', form = form)
+        return self.render('admin/test.html', form = form)
+
 admin = Admin(app, name='admin', template_mode='bootstrap3', index_view = MyAdminIndexView())
+admin.add_view(TestView(name='Test', endpoint='test'))
 admin.add_view(MyModelView(User, db.session))
-admin.add_view(MyModelView(Seat, db.session))
+admin.add_view(MySeatView(Seat, db.session))
 admin.add_view(MyModelView(User_Seat, db.session))
