@@ -9,6 +9,8 @@ from flask_login import current_user
 from flask import redirect, url_for
 from flask_admin.actions import action
 from flask_admin import BaseView, expose
+import serial
+import time
 
 # By inheriting the UserMixin we get access to a lot of built-in attributes
 # which we will be able to call in our views!
@@ -19,7 +21,6 @@ from flask_admin import BaseView, expose
 
 # The user_loader decorator allows flask-login to load the current user
 # and grab their id.
-connector = Connector("COM4")
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -101,9 +102,9 @@ class TestView(BaseView):
         form = BTForm()
         if form.validate_on_submit():
             if form.turnOn.data:
-                connector.Wvalue('e')
+                connector.write(str.encode(str('e')))
             else:
-                connector.Wvalue('g')
+                connector.write(str.encode(str('g')))
             return self.render('admin/test.html', form = form)
         return self.render('admin/test.html', form = form)
 

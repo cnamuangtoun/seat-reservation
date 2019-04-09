@@ -10,34 +10,24 @@
     <title></title>
   </head>
 
-  {# get_flashed_messages() is auto sent to the template with the flash() call #}
-  {% for mess in get_flashed_messages()  %}
-  <div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close" class="fade close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    {{mess}}
-    </div>
-  {% endfor %}
-
-  <body>
-    <nav>
+  <nav>
 	<div class="nav__left-container">
 		<h1 class="nav__logo">GMDP</h1>
 		<a class="nav__link" href="{{ url_for('home') }}">home</a>
 		{% if current_user.is_authenticated %}
         <a class="nav__link" href="{{ url_for('logout') }}">logout</a>
-		<a class="nav__link" href="{{ url_for('seat_reservation') }}">Seat Reservation</a>
-        {% else %}
+		    <a class="nav__link" href="{{ url_for('seat_reservation') }}">Seat Reservation</a>
+    {% else %}
 		<a class="nav__link" href="{{ url_for('login') }}">login</a>
 		<a class="nav__link" href="{{ url_for('sign_up') }}">sign up</a>
 		{% endif %}
 	</div>
 	</nav>
 
+<div class="container">
 {% block content %}
 
 {% endblock %}
+</div>
 
-  </body>
 </html>
