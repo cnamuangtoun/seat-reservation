@@ -5,6 +5,8 @@ from flask_login import login_user,login_required,logout_user,current_user
 from gmdp.models import User, Seat, User_Seat
 from gmdp.forms import LoginForm, RegistrationForm, reservation_form_builder, BTForm
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_socketio import SocketIO, emit
+from threading import Thread, Event
 import datetime as dt
 import atexit
 import serial
@@ -17,38 +19,87 @@ import time
 #    db.session.add(user_seat)
 #    db.session.commit()
 
-# connector = None
-#
-# try:
-#     connector = Connector('COM5')
-# except KeyboardInterrupt:
-#     print("ok")
-# finally:
-#     del connector
+socketio = SocketIO(app)
+
+#random number Generator Thread
+
+connector = Connector("COM6")
+
+thread = Thread()
+thread_stop_event = Event()
+
+# global connector
+
+class RandomThread(Thread):
+    def __init__(self, connector):
+        self.delay = 1
+        self.connection = connector
+        super(RandomThread,self).__init__()
+
+    def dataTransfer(self):
+        """
+        Generate a random number every 1 second and emit to a socketio instance (broadcast)
+        Ideally to be run in a separate thread?
+        """
+        #infinite loop of magical random numbers
+        while not thread_stop_event.isSet():
+            try:
+                status = self.connection.Rvalue()
+                print(status)
+                # else:
+                # socketio.emit('newstatus', {'status': status}, namespace='/test')
+            except:
+                print("Cant decode")
+
+            try:
+                if int(status[0]):
+                    warning = 1
+                    socketio.emit('warning', {'warning': warning}, namespace='/test')
+
+                if int(status[1]):
+                    seat = Seat.query.filter_by(seat_id="A0").first()
+                    seat.status = 0;
+                    user_seat = User_Seat.query.filter_by(seat_id="A0").first()
+                    user_seat.user_email = ""
+                    db.session.commit()
+                    time_out = 1
+                    socketio.emit('time_out', {'time_out': time_out}, namespace='/test')
+            except:
+                print("trying again")
+
+            time.sleep(self.delay)
+
+    def run(self):
+        self.dataTransfer()
 
 @app.route('/')
 def home():
-    global connector1
-    #global connector2
-    #connector2 = Connector('COM7')
-    connector1 = Connector('COM6')
     return render_template('home.html')
+
+@socketio.on('connect', namespace='/test')
+def test_connect():
+    # need visibility of the global thread object
+    global connector
+    global thread
+    print('Client connected')
+
+    #Start the random number generator thread only if the thread has not been started before.
+    if not thread.isAlive():
+        print("Starting Thread")
+        thread = RandomThread(connector)
+        thread.start()
+
+@socketio.on('disconnect', namespace='/test')
+def test_disconnect():
+    print('Client disconnected')
+
+@app.route('/index')
+def index():
+    return render_template('index.html')
 
 @app.route('/seat_reservation', methods=['GET','POST'])
 @login_required
 def seat_reservation():
-
-    # try:
-    #     connector1.Wvalue('g')
-    #     time.sleep(0.5)
-    #     read = connector1.Rvalue()
-    #     seat = read[0:2]
-    #     status = read[3]
-    #     #print(read)
-    #     print(seat)
-    #     print(status)
-    # except:
-    # flash('Need to connect to bluetooth')
     return render_template('seat_reservation.html')
 
 @app.route('/seat_reservation/floor_1')
@@ -94,6 +145,7 @@ def floor_2():
                 db.session.commit()
                 reserved = True
         if reserved:
+            connector.Wvalue("r")
             flash('Sucessful Reservation')
         return (redirect(url_for('floor_2')))
 
@@ -128,9 +180,7 @@ def login():
             #Log in the user
 
             login_user(user)
-
             flash('Logged in successfully.')
-
             next = request.args.get('next')
 
             if next == None or not next[0]=='/':
@@ -162,27 +212,23 @@ def sign_up():
         return redirect(url_for('login'))
     return render_template('sign_up.html', form=form)
 
-@app.route('/test', methods=['GET','POST'])
-def test():
-    form = BTForm()
-    connector1.Flush()
-    if form.validate_on_submit():
-        if form.turnOn.data:
-            connector1.Wvalue('e')
-        else:
-            connector1.Wvalue('g')
-        read = connector1.Rvalue()
-        #read = connector2.Rvalue()
-
-        print(read.decode())
-        return redirect(url_for('test'))
-
-    return render_template('test.html', form = form)
-
-# @app.route('/read', methods = ['GET'])
-# def read():
-#     print(connector.readline())
-#     return redirect(url_for(test))
+# @app.route('/test', methods=['GET','POST'])
+# def test():
+#     form = BTForm()
+#     connector.Flush()
+#     if form.validate_on_submit():
+#         if form.turnOn.data:
+#             connector.Wvalue('e')
+#         else:
+#             connector.Wvalue('g')
+#         time.sleep(0.5)
+#         read = connector.Rvalue()
+#         print(read)
+#         #read = connector2.Rvalue()
+#
+#         return redirect(url_for('test'))
+#
+#     return render_template('test.html', form = form)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

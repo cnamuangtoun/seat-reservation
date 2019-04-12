@@ -159,3 +159,8 @@ form:after {
 	float:right;
 	text-decoration: none;
 }
+
+#alertWin {
+	z-index: 2000;
+	position: auto;
+}

@@ -11,7 +11,7 @@
 <style type="text/css">
 </style>
 </head>
-
+<!--
 {# get_flashed_messages() is auto sent to the template with the flash() call #}
 {% for mess in get_flashed_messages()  %}
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -21,6 +21,8 @@
   {{mess}}
 </div>
 {% endfor %}
+-->
+<!-- Push Alert for occupied seats-->
 
 <div id="t1">
   <div id="t2">
@@ -85,7 +87,7 @@
 <!-- Reservation Info.-->
 <div id="container">
       	<section id="content">
-        <form>
+        <form method="POST">
           <h1>Reserved Info.</h1> <br>
 		  <hr>
         <output>
@@ -95,14 +97,14 @@
    		  <span class="placeholder">Seats</span>
   		  </output>
 		  <hr>
+		  <p>Have you find your seat?</p>
+		  <input type="submit" value="Yes">
+		  <br> <br>
+		  <input type="submit" value="No">
+		<hr>
         </form>
-			<br>
-			<div class="group">
-					<input id="check" type="checkbox" class="check" checked>
-					<label for="check"><span class="icon"></span> Group Reservation</label>
-				</div>
+		<br>
         <p>Contact Librarians: <a target="_blank" href="#">Here</a></p>
       </section>
 </div>
-
 {% endblock %}

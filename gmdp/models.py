@@ -19,8 +19,8 @@ import time
 # is_anonymous()
 # get_id()
 
-# The user_loader decorator allows flask-login to load the current user
-# and grab their id.
+#turn the flask app into a socketio app
+
 
 @login_manager.user_loader
 def load_user(user_id):

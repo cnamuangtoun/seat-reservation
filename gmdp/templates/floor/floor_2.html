@@ -10,6 +10,7 @@
 </style>
 </head>
 
+<!--
 {% for mess in get_flashed_messages()  %}
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close" class="fade close">
@@ -18,7 +19,8 @@
   {{mess}}
   </div>
 {% endfor %}
-
+-->
+	
 <!-- Table C -->
 <form method = "POST">
 {{ form.hidden_tag() }}
@@ -79,7 +81,7 @@
       </li>
     </ol>
   </div>
-  <div>
+  <div id="submitButton">
     {{ form.submit(class="button") }}
   </div>
 </form>

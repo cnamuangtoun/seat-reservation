@@ -220,7 +220,7 @@ ol {
     -moz-transform: rotate(90deg);
     -o-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
-    transform: translate(-100%,40%);
+    transform: translate(-140px,60px);
 }
 
 #rotate_desk_left {
@@ -228,7 +228,7 @@ ol {
     -moz-transform: rotate(90deg);
     -o-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
-	transform: translate(-150%,60%) rotate(-90deg);
+	transform: translate(-100%,45%) rotate(-90deg);
 }
 
 #rotate_desk_right {
@@ -236,7 +236,7 @@ ol {
     -moz-transform: rotate(90deg);
     -o-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
-    transform: translate(-50%,-50%) rotate(-90deg);
+    transform: translate(0%,-65%) rotate(-90deg);
 }
 
 #floor2_table {
@@ -244,7 +244,7 @@ ol {
     -moz-transform: rotate(90deg);
     -o-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
-    transform: translate(-100%,75%) rotate(-90deg);
+    transform: translate(-50%,75%);
 }
 
 #floor3_table {
@@ -252,7 +252,7 @@ ol {
     -moz-transform: rotate(90deg);
     -o-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
-    transform: translate(-100%,75%) rotate(0deg);
+    transform: translate(-50%,75%) rotate(90deg);
 }
 
 
@@ -343,6 +343,7 @@ ol {
 	text-transform:uppercase;
 	font-weight:bold;
 	outline:none;
+	position: relative;
 	border:none;
 	padding:12px;
 	background: #606c88;
@@ -365,6 +366,11 @@ ol {
 	color: #fff;
 	cursor: pointer;
 	width:100%;
+}
+
+#submitButton{
+	position:relative; 
+	transform: translate(250px,150px);
 }
 
 #content form div a {
@@ -400,6 +406,7 @@ form:after {
 	visibility: hidden;
 }
 
+
 /*Position and Style imigrated from login_style.css/submit buttom*/
 form input[type="submit"] {
 	text-transform:uppercase;
@@ -427,7 +434,6 @@ form input[type="submit"] {
 	color: #fff;
 	cursor: pointer;
 	width:100px;
-    transform: translate(280%,500%)
 }
 
 form output {
