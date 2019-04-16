@@ -24,18 +24,18 @@ $(document).ready(function(){
     });
 
     socket.on('warning', function(msg) {
-      message_send = ('<script LANGUAGE="javascript"> alert("Your seat has been occupied please confirm in seat_reservation page"); </script>');
+      message_send = ('<script LANGUAGE="javascript"> alert("Your seat ' + msg.warning + ' has been occupied please confirm in seat_reservation page"); </script>');
       $('#warning').html(message_send);
     });
 
     socket.on('time_out', function(msg) {
-      message_send = ('<script LANGUAGE="javascript"> alert("Your Seat has timed out"); </script>');
+      message_send = ('<script LANGUAGE="javascript"> alert("Your Seat ' + msg.time_out + ' has timed out"); </script>');
       $('#time_out').html(message_send);
     });
 
-    socket.on('error', function(msg) {
-      message_send = '<script LANGUAGE="javascript"> alert("Seat A0 is occupied unlawfully"); </script>';
-      $('#admin_error').html(message_send);
-    });
+    // socket.on('error', function(msg) {
+    //   message_send = '<script LANGUAGE="javascript"> alert("Seat A0 is occupied unlawfully"); </script>';
+    //   $('#admin_error').html(message_send);
+    // });
 
 });

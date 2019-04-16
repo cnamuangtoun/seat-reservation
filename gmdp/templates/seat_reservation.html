@@ -89,23 +89,30 @@
       	<section id="content">
           <h1>Reserved Info.</h1> <br>
 		  <hr>
-        <output>
-       		  <span>{{current_user.username}}</span>
-  		  </output>
+      <output>
+     		  <span>User: {{current_user.username}}</span>
+		  </output>
+      <br>
 		  <output>
-   		  <span class="placeholder">Seats</span>
+        <span>Seats Reserved:
+              {% for i in disp %}
+              {{i}},
+              {% endfor %}
+        </span>
   		  </output>
 		  <hr>
+      {% if show %}
 		  <p>Have you find your seat?</p>
       <form method="POST">
         {{ form.hidden_tag() }}
 		    {{ form.Confirm() }}
 		  <br> <br>
 		    {{ form.Reject() }}
-		<hr>
+		  <hr>
       </form>
-		<br>
-        <p>Contact Librarians: <a target="_blank" href="#">Here</a></p>
+		  <br>
+      <p>Contact Librarians: <a target="_blank" href="#">Here</a></p>
+      {% endif %}
       </section>
 </div>
 {% endblock %}

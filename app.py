@@ -27,8 +27,8 @@ lock = Lock()
 
 #random number Generator Thread
 
-connector1 = Connector("COM7", "A0")
-connector2 = Connector("COM8", "A1")
+connector1 = Connector("COM6", "A0")
+connector2 = Connector("COM9", "A1")
 # connector3 = Connector("COM12", "A2")
 # connector4 = Connector("COM14", "A3")
 # connector5 = Connector("COM15", "A4")
@@ -42,7 +42,8 @@ thread2 = Thread()
 # thread4 = Thread()
 # thread5 = Thread()
 
-list_thread = [thread1,thread2] #,thread3,thread4,thread5]
+list_thread = [thread1, thread2] #,thread3,thread4,thread5]
+list_random_thread = []
 #thread6 = Thread()
 
 thread_stop_event = Event()
@@ -52,6 +53,7 @@ class RandomThread(Thread):
         self.delay = 1
         self.connection = connector
         self.warning = 0
+        self.show = 0
         super(RandomThread,self).__init__()
 
     def dataTransfer(self):
@@ -74,12 +76,14 @@ class RandomThread(Thread):
                     if (self.warning == 0):
 
                         user_seat = User_Seat.query.filter_by(seat_id=self.connection.seat_id).first()
-                        seat = Seat.query.filter_by(seat_id=self.connection.seat_id).first()
-                        seat.status = 3
-                        db.session.commit()
-
-                        socketio.emit('warning', {'warning': self.connection.seat_id}, namespace='/test')
-                        self.warning = 1
+                        if user_seat.user_email == "":
+                            seat = Seat.query.filter_by(seat_id=self.connection.seat_id).first()
+                            seat.status = 3
+                            db.session.commit()
+                        else:
+                            socketio.emit('warning', {'warning': self.connection.seat_id}, namespace='/test')
+                            self.show = 1
+                            self.warning = 1
 
                 if int(status == "1"):
                     self.warning = 0
@@ -107,12 +111,16 @@ def test_connect():
     print('Client connected')
 
     #Start the random number generator thread only if the thread has not been started before.
+    global list_thread
+    global list_random_thread
 
     for i in range(len(list_thread)):
         if not list_thread[i].isAlive():
             print("Starting Thread")
             list_thread[i] = RandomThread(list_connector[i])
+            list_random_thread.append(list_thread[i])
             list_thread[i].start()
+
 
 @socketio.on('disconnect', namespace='/test')
 def test_disconnect():
@@ -125,6 +133,19 @@ def index():
 @app.route('/seat_reservation', methods=['GET','POST'])
 @login_required
 def seat_reservation():
+
+    global list_random_thread
+
+    disp = []
+    user_seats = User_Seat.query.filter_by(user_email=current_user.email).all()
+    for user_seat in user_seats:
+        disp.append(user_seat.seat_id)
+
+    show = False
+
+    for threads in list_random_thread:
+        show = threads.show or show
+
     form = ConfirmForm()
     if form.validate_on_submit():
         if form.Confirm.data:
@@ -134,11 +155,14 @@ def seat_reservation():
             msg = Message("Seat Error",
                   sender="ninjutsupro@gmail.com",
                   recipients=["leegyt@sjtu.edu.cn"])
-            msg.body = "Seat A0 has been unlawfully occupied"
+            msg.body = "Seat " + " has been unlawfully occupied"
             mail.send(msg)
             flash("Error message sent to admin")
             print("reject")
-    return render_template('seat_reservation.html', form = form)
+
+        for threads in list_random_thread:
+            threads.show = False
+    return render_template('seat_reservation.html', form = form, disp = disp, show = show)
 
 @app.route('/seat_reservation/floor_1')
 @login_required

@@ -6,7 +6,7 @@ body , .page {
   transition:all .4s ease-in-out;
   color:black;
   overflow:hidden;
-  background: linear-gradient(to left,#002a4c,#002a4c 62%,white 63%);
+  background: linear-gradient(to left,#002a4c,#002a4c 62vw,white 63vw);
 }
 
 .page{
@@ -38,13 +38,16 @@ body , .page {
   transform:translateX(-150%);
 }
 
+
+/*Solomon: 1366*768/
+/*Sean: 1920*1080*/
 ul {
-  width:150px;
-  height:160px;
+  width:11.4vw;/*150px;*/
+  height:12.8vw;/*160px;*/
   background:linear-gradient(to right,white 15%,#002a4c 25%,#87CEFA 35%,#87CEFA);
   position:fixed;
-  top:120px;
-  left:450px;
+  top:8.4vw;/*120px;*/
+  left:35.2vw;/*450px;*/
   z-index:1;
   border-radius:0 20px 20px 0;
 }
