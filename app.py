@@ -216,7 +216,7 @@ def floor_2():
             if reserved[i] == "n":
                 continue
             list_connector[i].Wvalue(reserved[i])
-            flash('Sucessful Reservation')
+        flash('Sucessful Reservation')
         return (redirect(url_for('floor_2')))
 
     return render_template('floor/floor_2.html', form = ReservationForm, disp = disp)
