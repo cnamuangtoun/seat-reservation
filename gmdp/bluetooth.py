@@ -2,9 +2,10 @@ import serial
 import time
 
 class Connector:
-    def __init__(self, port):
+    def __init__(self, port, seat_id):
         print("test")
         self.port = port
+        self.seat_id = seat_id
         #try:
         self.connection = serial.Serial(port, 38400)
         #except:

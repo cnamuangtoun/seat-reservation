@@ -45,3 +45,7 @@ class BTForm(FlaskForm):
     def __init__(self, *args, **kwargs):
         kwargs['csrf_enabled'] = False
         super(BTForm, self).__init__(*args, **kwargs)
+
+class ConfirmForm(FlaskForm):
+    Confirm = SubmitField('Yes')
+    Reject = SubmitField('No')

@@ -1,16 +1,19 @@
-from gmdp import app,db
+from gmdp import app,db,mail
 from flask import render_template, redirect, request, url_for, flash, abort
 from gmdp.bluetooth import Connector
 from flask_login import login_user,login_required,logout_user,current_user
 from gmdp.models import User, Seat, User_Seat
-from gmdp.forms import LoginForm, RegistrationForm, reservation_form_builder, BTForm
+from gmdp.forms import LoginForm, RegistrationForm, reservation_form_builder, BTForm, ConfirmForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_socketio import SocketIO, emit
-from threading import Thread, Event
+from threading import Thread, Event, Lock
+from wtforms import SubmitField
+from flask_mail import Message
 import datetime as dt
 import atexit
 import serial
 import time
+import types
 
 #for i in range (0,12):
 #    seat = Seat(seat_id = 'A%d' % i)
@@ -20,20 +23,35 @@ import time
 #    db.session.commit()
 
 socketio = SocketIO(app)
+lock = Lock()
 
 #random number Generator Thread
 
-connector = Connector("COM6")
+connector1 = Connector("COM7", "A0")
+connector2 = Connector("COM8", "A1")
+# connector3 = Connector("COM12", "A2")
+# connector4 = Connector("COM14", "A3")
+# connector5 = Connector("COM15", "A4")
+#connector6 = Connector("COM16", "A5")
 
-thread = Thread()
+list_connector = [connector1,connector2] #,connector3,connector4,connector5]
+
+thread1 = Thread()
+thread2 = Thread()
+# thread3 = Thread()
+# thread4 = Thread()
+# thread5 = Thread()
+
+list_thread = [thread1,thread2] #,thread3,thread4,thread5]
+#thread6 = Thread()
+
 thread_stop_event = Event()
-
-# global connector
 
 class RandomThread(Thread):
     def __init__(self, connector):
         self.delay = 1
         self.connection = connector
+        self.warning = 0
         super(RandomThread,self).__init__()
 
     def dataTransfer(self):
@@ -44,28 +62,35 @@ class RandomThread(Thread):
         #infinite loop of magical random numbers
         while not thread_stop_event.isSet():
             try:
+                lock.acquire()
                 status = self.connection.Rvalue()
-                print(status)
-                # else:
-                # socketio.emit('newstatus', {'status': status}, namespace='/test')
+                print(status, " ", self.connection.seat_id)
+                lock.release()
             except:
                 print("Cant decode")
 
             try:
-                if int(status[0]):
-                    warning = 1
-                    socketio.emit('warning', {'warning': warning}, namespace='/test')
+                if int(status == "2"):
+                    if (self.warning == 0):
 
-                if int(status[1]):
-                    seat = Seat.query.filter_by(seat_id="A0").first()
+                        user_seat = User_Seat.query.filter_by(seat_id=self.connection.seat_id).first()
+                        seat = Seat.query.filter_by(seat_id=self.connection.seat_id).first()
+                        seat.status = 3
+                        db.session.commit()
+
+                        socketio.emit('warning', {'warning': self.connection.seat_id}, namespace='/test')
+                        self.warning = 1
+
+                if int(status == "1"):
+                    self.warning = 0
+                    socketio.emit('time_out', {'time_out': self.connection.seat_id}, namespace='/test')
+                    seat = Seat.query.filter_by(seat_id=self.connection.seat_id).first()
                     seat.status = 0;
-                    user_seat = User_Seat.query.filter_by(seat_id="A0").first()
+                    user_seat = User_Seat.query.filter_by(seat_id=self.connection.seat_id).first()
                     user_seat.user_email = ""
                     db.session.commit()
-                    time_out = 1
-                    socketio.emit('time_out', {'time_out': time_out}, namespace='/test')
             except:
-                print("trying again")
+                 print("trying again", self.connection.seat_id)
 
             time.sleep(self.delay)
 
@@ -79,15 +104,19 @@ def home():
 @socketio.on('connect', namespace='/test')
 def test_connect():
     # need visibility of the global thread object
-    global connector
-    global thread
+    for connectors in list_connector:
+        global connectors
+    for thread in list_thread:
+        global connectors
     print('Client connected')
 
     #Start the random number generator thread only if the thread has not been started before.
-    if not thread.isAlive():
-        print("Starting Thread")
-        thread = RandomThread(connector)
-        thread.start()
+
+    for i in range(len(list_thread)):
+        if not list_thread[i].isAlive():
+            print("Starting Thread")
+            list_thread[i] = RandomThread(list_connector[i])
+            list_thread[i].start()
 
 @socketio.on('disconnect', namespace='/test')
 def test_disconnect():
@@ -100,7 +129,20 @@ def index():
 @app.route('/seat_reservation', methods=['GET','POST'])
 @login_required
 def seat_reservation():
-    return render_template('seat_reservation.html')
+    form = ConfirmForm()
+    if form.validate_on_submit():
+        if form.Confirm.data:
+            print("confirm")
+        if form.Reject.data:
+            error = 1
+            msg = Message("Seat Error",
+                  sender="ninjutsupro@gmail.com",
+                  recipients=["leegyt@sjtu.edu.cn"])
+            msg.body = "Seat A0 has been unlawfully occupied"
+            mail.send(msg)
+            flash("Error message sent to admin")
+            print("reject")
+    return render_template('seat_reservation.html', form = form)
 
 @app.route('/seat_reservation/floor_1')
 @login_required
@@ -112,19 +154,20 @@ def foor_1():
 def floor_2():
 
     seats = ['A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11']
-
+    global warning
     ReservationForm = reservation_form_builder(seats)
     err = False
     disp = []
     data = Seat.query.all()
     for seat_num in data:
         user_seat = User_Seat.query.filter_by(seat_id= seat_num.seat_id).first()
-        if current_user.email != user_seat.user_email and seat_num.status:
+        if current_user.email != user_seat.user_email and seat_num.status == 1:
             disp.append(2)
         else:
             disp.append(int(seat_num.status == 1))
 
     if ReservationForm.validate_on_submit():
+        reserved = []
         #if not err:
         for forms in ReservationForm:
             #ignores submit form and the csrf_token at the end of ReservationForm
@@ -139,13 +182,20 @@ def floor_2():
                 #update user_seat if the person is reserving a seat else if he is unreserving a seat only update user_seat if the seat
                 #is reserved by current user
                 if forms.data and change:
+                    reserved.append("r")
                     user_seat.user_email = current_user.email
                 elif not forms.data and change and user_seat.user_email == current_user.email:
+                    reserved.append("a")
                     user_seat.user_email = ""
+                    warning = 0
+                else:
+                    reserved.append("n")
                 db.session.commit()
-                reserved = True
-        if reserved:
-            connector.Wvalue("r")
+
+        for i in range(len(reserved)):
+            if reserved[i] == "n":
+                continue
+            list_connector[i].Wvalue(reserved[i])
             flash('Sucessful Reservation')
         return (redirect(url_for('floor_2')))
 
@@ -173,8 +223,6 @@ def login():
     if form.validate_on_submit():
         # Grab the data from the breed on the form.
         user = User.query.filter_by(email=form.email.data).first()
-        #session['id'] = form.id.data
-        #session['pwd'] = form.pwd.data
 
         if user is not None and user.check_password(form.password.data):
             #Log in the user
@@ -211,24 +259,6 @@ def sign_up():
 
         return redirect(url_for('login'))
     return render_template('sign_up.html', form=form)
-
-# @app.route('/test', methods=['GET','POST'])
-# def test():
-#     form = BTForm()
-#     connector.Flush()
-#     if form.validate_on_submit():
-#         if form.turnOn.data:
-#             connector.Wvalue('e')
-#         else:
-#             connector.Wvalue('g')
-#         time.sleep(0.5)
-#         read = connector.Rvalue()
-#         print(read)
-#         #read = connector2.Rvalue()
-#
-#         return redirect(url_for('test'))
-#
-#     return render_template('test.html', form = form)
 
 if __name__ == '__main__':
     app.run()

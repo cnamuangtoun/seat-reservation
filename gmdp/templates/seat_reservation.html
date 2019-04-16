@@ -11,17 +11,17 @@
 <style type="text/css">
 </style>
 </head>
-<!--
+
 {# get_flashed_messages() is auto sent to the template with the flash() call #}
 {% for mess in get_flashed_messages()  %}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
+<div id="alertWin" class="alert alert-warning alert-dismissible fade show" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close" class="fade close">
     <span aria-hidden="true">&times;</span>
   </button>
   {{mess}}
 </div>
 {% endfor %}
--->
+
 <!-- Push Alert for occupied seats-->
 
 <div id="t1">
@@ -87,7 +87,6 @@
 <!-- Reservation Info.-->
 <div id="container">
       	<section id="content">
-        <form method="POST">
           <h1>Reserved Info.</h1> <br>
 		  <hr>
         <output>
@@ -98,11 +97,13 @@
   		  </output>
 		  <hr>
 		  <p>Have you find your seat?</p>
-		  <input type="submit" value="Yes">
+      <form method="POST">
+        {{ form.hidden_tag() }}
+		    {{ form.Confirm() }}
 		  <br> <br>
-		  <input type="submit" value="No">
+		    {{ form.Reject() }}
 		<hr>
-        </form>
+      </form>
 		<br>
         <p>Contact Librarians: <a target="_blank" href="#">Here</a></p>
       </section>

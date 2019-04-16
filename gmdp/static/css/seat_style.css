@@ -275,10 +275,10 @@ ol {
 
 /* Reservation Info. */
 .container {
-	margin: 25px auto; 
-	position: relative; 
+	margin: 25px auto;
+	position: relative;
 	width: 900px;
-	
+
 }
 
 #content {
@@ -369,7 +369,7 @@ ol {
 }
 
 #submitButton{
-	position:relative; 
+	position:relative;
 	transform: translate(250px,150px);
 }
 
@@ -453,5 +453,7 @@ form output {
 .fum { color:darken(red,10%); }
 .total { color:black; font-weight:bold; }
 
-
-
+#alertWin {
+	z-index: 2000;
+	position: auto;
+}
