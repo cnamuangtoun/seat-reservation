@@ -104,10 +104,6 @@ def home():
 @socketio.on('connect', namespace='/test')
 def test_connect():
     # need visibility of the global thread object
-    for connectors in list_connector:
-        global connectors
-    for thread in list_thread:
-        global connectors
     print('Client connected')
 
     #Start the random number generator thread only if the thread has not been started before.
