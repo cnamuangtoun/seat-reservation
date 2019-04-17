@@ -174,7 +174,7 @@ def foor_1():
 def floor_2():
 
     seats = ['A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11']
-    global warning
+    global list_random_thread
     ReservationForm = reservation_form_builder(seats)
     err = False
     disp = []
@@ -189,7 +189,7 @@ def floor_2():
     if ReservationForm.validate_on_submit():
         reserved = []
         #if not err:
-        for forms in ReservationForm:
+        for id,forms in enumerate(ReservationForm):
             #ignores submit form and the csrf_token at the end of ReservationForm
             if forms.id != 'submit' and forms.id != 'csrf_token':
                 seat = Seat.query.filter_by(seat_id=forms.description).first()
@@ -207,7 +207,10 @@ def floor_2():
                 elif not forms.data and change and user_seat.user_email == current_user.email:
                     reserved.append("a")
                     user_seat.user_email = ""
-                    warning = 0
+                    try:
+                        list_random_thread[id] = 0
+                    except:
+                        pass
                 else:
                     reserved.append("n")
                 db.session.commit()

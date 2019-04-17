@@ -101,8 +101,19 @@
         </span>
   		  </output>
 		  <hr>
+			{%if show == 0%}
+				<p>Have you find your seat?</p>
+				  <form method="POST">
+					<input type="text" value="Yes"/>
+					  <br>
+					<input type="text" value="No"/>
+					  <hr>
+				  </form>
+					  <br>
+				  <p>Contact Librarians: <a target="_blank" href="#">Here</a></p>
+			{%endif%}
       {% if show %}
-		  <p>Have you find your seat?</p>
+	  <p>Have you find your seat?</p>
       <form method="POST">
         {{ form.hidden_tag() }}
 		    {{ form.Confirm() }}
